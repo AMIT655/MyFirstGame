@@ -28,6 +28,7 @@ public class MainPanel extends JPanel {
     private boolean bossDirectionRight = true;
 
     private int fireCounter = 0;
+    private int points;
 
     public MainPanel(int x, int y, int width, int height) {
 
@@ -101,6 +102,7 @@ public class MainPanel extends JPanel {
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Missiles: " + countMissiles + (reloading ? " (reloading)" : ""), 20, 30);
         g.drawString("Lives: " + playerLives, 20, 60);
+        g.drawString("Points: " + points ,1120,30);
 
         // הודעת סיום
         if (gameOver) {
@@ -168,38 +170,111 @@ public class MainPanel extends JPanel {
             backgroundLabel.setIcon(backgroundIcon);
         } catch (Exception e) {
             System.err.println("Background image not found");
+            backgroundLabel.setOpaque(true);
+            backgroundLabel.setBackground(Color.BLACK);
         }
 
         backgroundLabel.setLayout(new BoxLayout(backgroundLabel, BoxLayout.Y_AXIS));
-        backgroundLabel.add(Box.createVerticalStrut(100));
 
-        JLabel label = new JLabel("GAME OVER!!");
-        label.setFont(new Font("Arial", Font.BOLD, 50));
-        label.setForeground(Color.MAGENTA);
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backgroundLabel.add(label);
 
-        backgroundLabel.add(Box.createVerticalStrut(40));
+        JLabel titleLabel = new JLabel("You lost!!!", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 60));
+        titleLabel.setForeground(Color.MAGENTA);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton restartButton = new JButton("RESTART");
+
+        JLabel scoreLabel = new JLabel("Total Points: " + this.points, SwingConstants.CENTER);
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        JButton restartButton = new JButton("Restart");
         restartButton.setFont(new Font("Arial", Font.PLAIN, 20));
         restartButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         restartButton.addActionListener(e -> {
             gameOverFrame.dispose();
             restartGame();
         });
+
+        JButton exitButton = new JButton("Exit");
+        exitButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.addActionListener(e -> System.exit(0));
+
+
+        backgroundLabel.add(Box.createVerticalStrut(100));
+        backgroundLabel.add(titleLabel);
+        backgroundLabel.add(Box.createVerticalStrut(40));
+        backgroundLabel.add(scoreLabel);
+        backgroundLabel.add(Box.createVerticalStrut(40));
+        backgroundLabel.add(restartButton);
+        backgroundLabel.add(Box.createVerticalStrut(20));
+        backgroundLabel.add(exitButton);
+
+        gameOverFrame.setContentPane(backgroundLabel);
+        gameOverFrame.setVisible(true);
+    }
+
+
+    private void showYouWonWindow (){
+        SwingUtilities.getWindowAncestor(this).dispose();
+
+        JFrame youWonFrame = new JFrame("You Won!");
+        youWonFrame.setSize(WINDOW_WIDTH2, WINDOW_HEIGHT2);
+        youWonFrame.setLocationRelativeTo(null);
+        youWonFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        youWonFrame.setResizable(false);
+
+        JLabel backgroundLabel = new JLabel();
+        try {
+            ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/5532919.jpg"));
+            backgroundLabel.setIcon(backgroundIcon);
+        } catch (Exception e) {
+            System.err.println("Background image not found");
+        }
+
+        backgroundLabel.setLayout(new BoxLayout(backgroundLabel, BoxLayout.Y_AXIS));
+        backgroundLabel.add(Box.createVerticalStrut(100));
+
+        // טקסט YOU WON
+        JLabel youWonLabel = new JLabel("YOU WON!!");
+        youWonLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        youWonLabel.setForeground(Color.MAGENTA);
+        youWonLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backgroundLabel.add(youWonLabel);
+
+        // ניקוד
+        JLabel scoreLabel = new JLabel("Total Points: " + this.points);
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backgroundLabel.add(Box.createVerticalStrut(10));
+        backgroundLabel.add(scoreLabel);
+
+        backgroundLabel.add(Box.createVerticalStrut(40));
+
+        // כפתור ריסטארט
+        JButton restartButton = new JButton("RESTART");
+        restartButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        restartButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        restartButton.addActionListener(e -> {
+            youWonFrame.dispose();
+            restartGame();
+        });
         backgroundLabel.add(restartButton);
 
         backgroundLabel.add(Box.createVerticalStrut(20));
 
+        // כפתור יציאה
         JButton exitButton = new JButton("EXIT");
         exitButton.setFont(new Font("Arial", Font.PLAIN, 20));
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener(e -> System.exit(0));
         backgroundLabel.add(exitButton);
 
-        gameOverFrame.setContentPane(backgroundLabel);
-        gameOverFrame.setVisible(true);
+        youWonFrame.setContentPane(backgroundLabel);
+        youWonFrame.setVisible(true);
     }
 
     private boolean allEnemiesDead() {
@@ -280,7 +355,8 @@ public class MainPanel extends JPanel {
 
                             if (bossMissileRect.intersects(playerRect)) {
                                 bossMissiles[i] = null;
-                                playerLives--;
+                                this.points-=20;
+                                playerLives-=2;
 
                                 if (playerLives <= 0 && !gameOver) {
                                     gameOver = true;
@@ -335,6 +411,7 @@ public class MainPanel extends JPanel {
                                 if (missileRect.intersects(enemyRect)) {
                                     enemies[j] = null;
                                     missiles[i] = null;
+                                    this.points+=10;
                                     break;
                                 }
                             }
@@ -345,6 +422,7 @@ public class MainPanel extends JPanel {
                             Rectangle bossRect = boss.getBounds();
                             if (missileRect.intersects(bossRect)) {
                                 boss.takeHit();
+                                this.points+=10;
                                 missiles[i] = null;
                             }
                         }
@@ -366,6 +444,7 @@ public class MainPanel extends JPanel {
 
                         if (bulletRect.intersects(playerRect)) {
                             enemyMissiles[i] = null;
+                            this.points-=10;
                             playerLives--;
 
                             if (playerLives <= 0 && !gameOver) {
@@ -382,6 +461,7 @@ public class MainPanel extends JPanel {
                                             missiles[j].getHEIGHT()
                                     );
                                     if (bulletRect.intersects(missileRect)) {
+                                        this.points+=1;
                                         enemyMissiles[i] = null;
                                         missiles[j] = null;
                                         break;
@@ -406,6 +486,14 @@ public class MainPanel extends JPanel {
                     level3Start = true;
                     boss = new Level3().getBoss();
                 }
+                if (level3Start && boss.isDead()) {
+                    this.points+=100;
+                    showYouWonWindow();
+                    break;
+                }
+
+
+
 
                 repaint();
 

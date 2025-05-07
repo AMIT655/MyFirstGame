@@ -75,15 +75,27 @@ public class StartMenu extends JPanel {
 
         JLabel label = new JLabel("INSTRUCTIONS:");
         label.setFont(new Font("Arial", Font.BOLD, 30));
-        label.setForeground(Color.PINK);
+        label.setForeground(Color.BLUE);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         String[] instructions = {
                 "← : Move Left",
                 "→ : Move Right",
                 "↑ : Move Up",
-                "↓ : Move Down",
-                "SPACE : Shoot"
+                "↓ : Move Down" ,
+                "SPACE : Shoot",
+                "",
+                " ",
+                "השנה היא 3047. גלים אינסופיים של תרנגולות שעברו מוטציה בחלל פתחו בפלישה בקנה מידה עולמי לכדור הארץ.",
+                "ערים שוכבות בהריסות, לוויינים הושמדו, והאנושות על סף הכחדה...",
+                "אתה הטייס האחרון של טייסת ההגנה הגלקטית.",
+                "המשימה שלך: להילחם בדרכך דרך שלושה אזורים קטלניים עמוק בשטח האויב",
+                "לשרוד התקפות בלתי פוסקות, ולהתמודד עם המוח שמאחורי הכל",
+                "הבוס האולטימטיבי שאף אחד לא ראה מעולם",
+
+                "עתיד האנושות מונח על כתפיך.",
+
+                "היכנס לקרב. אל תחזור בלי ניצחון."
         };
 
         background.add(Box.createVerticalStrut(40));
@@ -92,8 +104,8 @@ public class StartMenu extends JPanel {
 
         for (int i = 0; i < instructions.length; i++) {
             JLabel instructionLabel = new JLabel(instructions[i]);
-            instructionLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-            instructionLabel.setForeground(Color.PINK);
+            instructionLabel.setFont(new Font("Arial", Font.PLAIN, 25));
+            instructionLabel.setForeground(Color.BLUE);
             instructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             background.add(instructionLabel);
         }
@@ -118,7 +130,7 @@ public class StartMenu extends JPanel {
         JLabel background = new JLabel(bgIcon);
         background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 
-        JLabel creditsLabel = new JLabel("Created by Amit Swisa :)");
+        JLabel creditsLabel = new JLabel("Created by Amit Swisa and Yair Siboni :)");
         creditsLabel.setFont(new Font("Arial", Font.BOLD, 24));
         creditsLabel.setForeground(Color.pink);
         creditsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

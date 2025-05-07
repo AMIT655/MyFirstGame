@@ -1,4 +1,4 @@
-package MyFirstGame;
+ package MyFirstGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         // יצירת חלון ראשי
         JFrame window = new JFrame("Chicken invaders");
-        window.setResizable(false);
+        window.setResizable(false)   ;
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setSize(WINDOW_WIDTH2, WINDOW_HEIGHT2);
         window.setLocationRelativeTo(null);

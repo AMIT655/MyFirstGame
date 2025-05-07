@@ -32,25 +32,25 @@ public class Player2 extends JPanel {
 
     public void moveUp(){
         if (this.y > 200 ) {
-            this.y -= 18;
+            this.y -= 50;
         }
     }
 
     public void moveDown(){
         if (y + height < Main.WINDOW_HEIGHT2) {
-            this.y += 18;
+            this.y += 50;
         }
     }
 
     public void moveLeft(){
         if (x > 0) {
-            this.x -= 18;
+            this.x -= 50;
         }
     }
 
     public void moveRight(){
         if (x + width < Main.WINDOW_WIDTH2) {
-            this.x += 18;
+            this.x += 50;
         }
     }
 

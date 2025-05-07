@@ -31,7 +31,7 @@ public class Object2 extends JPanel {
         }
 
     }
-// פונקציה שמקטינה את האוביקט
+    // פונקציה שמקטינה את האוביקט
     public void reduce(){
         this.width--;
         this.height--;
